@@ -1,8 +1,16 @@
 from pathlib import Path
+import os
+import environ
+
+env = environ.Env(
+    # default value
+    DEBUG=(bool, False)
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-#l-76b9&0k!ijohntf+*-pxvfh3q@ek%-@#u_!f=qnl42%f+p^'
-DEBUG = True
+environ.Env.read_env(os.path.join(BASE_DIR, 'exclude/.env'))  # get environ vars from .env
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = str(env('DEBUG')) == 'True'
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -75,7 +83,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Los_Angeles'
+# TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
