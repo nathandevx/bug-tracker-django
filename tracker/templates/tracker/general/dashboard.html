@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block contents %}
+    <div class="container-fluid width">
+        <h1>Dashboard</h1>
+	    <p>Breadcrumbs...</p>
+
+        <h3>Card links</h3>
+        <p>
+	        <a href="#">All tickets</a>, <a href="#"> resolved tickets</a>, <a href="#">in progress tickets</a>, <a href="#">high priority tickets</a>
+        </p>
+        <p>Then show View (num tickets) -></p>
+
+        <h3>chart showing number of total tickets</h3>
+        <h3>chart showing growing users</h3>
+		<h3>Table of users</h3>
+        <p>You can search users by name. By default they are sorted by most tickets completed</p>
+
+    </div>
+{% endblock %}

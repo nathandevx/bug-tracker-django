@@ -13,7 +13,7 @@
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Dashboard</a>
+                        <a class="nav-link" href="{% url 'tracker:dashboard' %}">Dashboard</a>
                     </li>
                     {% if user.is_superuser %}
                         <li class="nav-item">
