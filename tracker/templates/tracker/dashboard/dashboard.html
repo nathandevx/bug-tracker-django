@@ -8,7 +8,7 @@
 
         <h3>Card links</h3>
         <p>
-	        <a href="#">All tickets</a>, <a href="#"> resolved tickets</a>, <a href="#">in progress tickets</a>, <a href="#">high priority tickets</a>
+	        <a href="{% url 'tracker:all-tickets' %}">All tickets</a>, <a href="{% url 'tracker:resolved-tickets' %}"> resolved tickets</a>, <a href="{% url 'tracker:in-progress-tickets' %}">in progress tickets</a>, <a href="{% url 'tracker:high-priority-tickets' %}">high priority tickets</a>
         </p>
         <p>Then show View (num tickets) -></p>
 

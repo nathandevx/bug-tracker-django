@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}In Progress Tickets{% endblock %}
+
+{% block contents %}
+    <div class="container-fluid width">
+        <h1>In Progress Tickets</h1>
+        <ul>
+	        {% for obj in object_list %}
+	            <li>
+		            {{ forloop.counter }}
+	                <ul>
+			            <li><a href="#">{{ obj.title }}</a></li>
+			            <li>{{ obj.type }}</li>
+			            <li>{{ obj.priority }}</li>
+	                </ul>
+	            </li>
+	        {% endfor %}
+        </ul>
+	</div>
+{% endblock %}
