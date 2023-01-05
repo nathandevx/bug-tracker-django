@@ -17,7 +17,7 @@
                     </li>
                     {% if user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Admin</a>
+                            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                         </li>
                     {% endif %}
                     <li class="nav-item" id="logout-nav-item">
