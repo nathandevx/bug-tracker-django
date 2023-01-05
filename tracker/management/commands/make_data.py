@@ -22,29 +22,28 @@ class Command(BaseCommand):
 		"""
 		Generates Users and assigns them to Managers, Developers, or Submitters
 		"""
-		for i in range(2):
+		for i in range(3):
 			user = self.User.objects.create(username=f'manager{i+1}', password=str(uuid.uuid4()), first_name=f'first{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Manager')
 			group.user_set.add(user)
 			user.save()
-		for i in range(4):
+		for i in range(5):
 			user = self.User.objects.create(username=f'developer{i+1}', password=str(uuid.uuid4()), first_name=f'firstd{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Developer')
 			group.user_set.add(user)
 			user.save()
-		for i in range(4):
+		for i in range(20):
 			user = self.User.objects.create(username=f'submitter{i+1}', password=str(uuid.uuid4()), first_name=f'firsts{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Submitter')
 			group.user_set.add(user)
 			user.save()
-		self.stdout.write('generate_users finished')
 
 	def generate_trackers(self):
 		"""
 		Generates Trackers for Users who're Managers
 		:return:
 		"""
-		for i in range(2):
+		for i in range(10):
 			# Gets user in group "Manager", excluding the superuser, in random order, and gets the first result
 			user = self.User.objects.filter(groups__name='Manager').exclude(username=SUPERUSER_USERNAME).order_by('?').first()
 			Tracker.objects.create(title=f'tracker{i+1}', description='desc', creator=user, updater=user, created_at=get_random_date(), updated_at=timezone.now())
@@ -53,7 +52,7 @@ class Command(BaseCommand):
 		"""
 		Generates Tickets and TicketComments
 		"""
-		for i in range(5):
+		for i in range(30):
 			typee = Ticket.TYPE_CHOICES[randint(0, 2)][0]
 			status = Ticket.STATUS_CHOICES[randint(0, 3)][0]
 			priority = Ticket.PRIORITY_CHOICES[randint(0, 2)][0]
