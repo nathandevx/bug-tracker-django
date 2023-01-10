@@ -36,7 +36,7 @@ class InProgressTicketListView(GroupsRequiredMixin, ListView):
 
 class HighPriorityTicketListView(GroupsRequiredMixin, ListView):
 	model = Ticket
-	template_name = 'tracker/dashboard/in_progress_tickets.html'
+	template_name = 'tracker/dashboard/high_priority_tickets.html'
 	groups = ALL_GROUPS
 	paginate_by = PAG_BY
 	queryset = Ticket.objects.filter(priority=Ticket.HIGH)

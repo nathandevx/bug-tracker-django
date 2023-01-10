@@ -4,5 +4,10 @@
 {% block contents %}
     <div class="container-fluid width">
         <h1>Resolved Tickets</h1>
+        <ul>
+	        {% for obj in object_list %}
+	            <li>{{ obj.title }} - {{ obj.status }}</li>
+	        {% endfor %}
+        </ul>
 	</div>
 {% endblock %}

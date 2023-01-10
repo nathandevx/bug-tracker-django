@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}All Tickets{% endblock %}
+{% block title %}High Priority Tickets{% endblock %}
 
 {% block contents %}
     <div class="container-fluid width">
-        <h1>All Tickets</h1>
+        <h1>High Priority Tickets</h1>
         <ul>
 	        {% for obj in object_list %}
-	            <li>{{ obj.title }}</li>
+	            <li>{{ obj.title }} - {{ obj.priority }}</li>
 	        {% endfor %}
         </ul>
 	</div>
