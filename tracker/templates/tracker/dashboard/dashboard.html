@@ -3,10 +3,10 @@
 
 {% block contents %}
     <div class="container-fluid width">
-        <h1>Dashboard</h1>
-	    <p>Breadcrumbs...</p>
+        <h1>Dashboard: for all trackers</h1>
+	    <p>Breadcrumbs...: tracker list, </p>
 
-        <h3>Card links</h3>
+        <h3>Card links (every tracker's tickets)</h3>
         <p>
 	        <a href="{% url 'tracker:all-tickets' %}">All tickets</a>,
 	        <a href="{% url 'tracker:resolved-tickets' %}"> resolved tickets</a>,
@@ -19,38 +19,7 @@
         <h3>chart showing growing users</h3>
 		<h3>Table of users</h3>
         <p>You can search users by name. By default they are sorted by most tickets completed</p>
-		<div>
-			<canvas id="myChart"></canvas>
-		</div>
-
-		<script type="text/javascript">
-			// Create a new Chart.js chart and bind it to the canvas element
-			let months = {{ months|safe }};
-            console.log(months)
-			let data = {{ data }};
-            console.log(data)
-			var ctx = document.getElementById('myChart').getContext('2d');
-			var myChart = new Chart(ctx, {
-				type: 'line',
-				data: {
-					labels: months,
-					datasets: [{
-                        label: 'testing',
-				        backgroundColor: "rgba(0,0,0,1.0)",
-						borderColor: "rgba(0,0,0,0.1)",
-						data: data
-					}]
-				},
-				options: {
-					plugins: {
-						legend: {
-							display: false
-						}
-					}
-				}
-			});
-
-		</script>
+		{% include 'tracker/dashboard/includes/ticket_chart.html' %}
 	    <br>
 	    <br>
 	    <br>
