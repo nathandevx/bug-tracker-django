@@ -1,14 +1,13 @@
 from django.core.management.base import BaseCommand
-from django.core.management import call_command
-from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+
+from random import randint, choice
 import uuid
-from random import randint
 
 from tracker.models import Tracker, Ticket, TicketComment
-from bug_tracker.utils import get_random_date
-from bug_tracker.constants import SUPERUSER_USERNAME
+from bug_tracker.utils import get_random_date, get_random_date_after_a_date
+from bug_tracker.constants import SUPERUSER_USERNAME, MONTH
 
 
 class Command(BaseCommand):
@@ -17,6 +16,13 @@ class Command(BaseCommand):
 	"""
 	help = 'Fills database with dummy data.'
 	User = get_user_model()
+
+	@staticmethod
+	def delete_data():
+		Tracker.objects.all().delete()
+		Ticket.objects.all().delete()
+		TicketComment.objects.all().delete()
+		get_user_model().objects.exclude(username='code').delete()
 
 	def generate_users(self):
 		"""
@@ -46,24 +52,36 @@ class Command(BaseCommand):
 		for i in range(10):
 			# Gets user in group "Manager", excluding the superuser, in random order, and gets the first result
 			user = self.User.objects.filter(groups__name='Manager').exclude(username=SUPERUSER_USERNAME).order_by('?').first()
-			Tracker.objects.create(title=f'tracker{i+1}', description='desc', creator=user, updater=user, created_at=get_random_date(), updated_at=timezone.now())
+			tracker = Tracker.objects.create(title=f'tracker{i+1}', description='desc', creator=user, updater=user)
+			tracker.created_at = get_random_date()  # todo what if a Ticket/TicketComment 'created_at' is before the tracker's 'created_at'
+			tracker.updated_at = get_random_date_after_a_date(tracker.created_at, MONTH)
+			tracker.save()
 
 	def generate_tickets(self):
 		"""
 		Generates Tickets and TicketComments
 		"""
 		for i in range(30):
+			# Get random choices
 			typee = Ticket.TYPE_CHOICES[randint(0, 2)][0]
 			status = Ticket.STATUS_CHOICES[randint(0, 3)][0]
 			priority = Ticket.PRIORITY_CHOICES[randint(0, 2)][0]
 
+			# Get 0-3 random developers
 			developers = self.User.objects.filter(groups__name='Developer').exclude(username=SUPERUSER_USERNAME).order_by('?')[:randint(0, 3)]
+			# Get a random submitter
 			submitter = self.User.objects.filter(groups__name='Submitter').exclude(username=SUPERUSER_USERNAME).order_by('?').first()
+			# Get a random tracker
 			tracker = Tracker.objects.order_by('?').first()
 
+			# Create the ticket
 			ticket = Ticket.objects.create(title=f'ticket{i+1}', description='desc',
-								   creator=submitter, updater=submitter, created_at=get_random_date(), updated_at=timezone.now(),
+								   creator=submitter, updater=submitter,
 								   resolution='resolution', type=typee, status=status, priority=priority, tracker= tracker)
+			# Update the dates
+			ticket.created_at = get_random_date()  # need to do this because 'created_at' automatically assigns a value
+			ticket.updated_at = get_random_date_after_a_date(ticket.created_at, MONTH*3)
+
 			# Assign developers to tickets
 			for dev in developers:
 				ticket.assignees.add(dev)
@@ -71,12 +89,18 @@ class Command(BaseCommand):
 
 			# Generate TicketComment's (the creator is the submitter)
 			for j in range(randint(0, 5)):
-				# low the creator of a ticketcomment can also be a developer
-				TicketComment.objects.create(title=f'comment{j+1}', description=f'desc{j+1}', ticket=ticket,
-											 creator=submitter, updater=submitter, created_at=get_random_date(), updated_at=timezone.now())
+				num = randint(0, 1)
+				comment = TicketComment.objects.create(title=f'comment{j+1}', description=f'desc{j+1}', ticket=ticket, creator=submitter, updater=submitter)
+				comment.created_at = get_random_date()
+				comment.updated_at = get_random_date_after_a_date(comment.created_at, MONTH // 4)
+				if num == 0 and developers:  # make a developer assigned to the ticket the commenter (if one exists)
+					comment.creator = choice(developers)
+					comment.updater = choice(developers)
+					comment.save()
 
 	def handle(self, *args, **kwargs):
-		call_command('delete_data')
+		self.delete_data()
+		self.stdout.write('delete_data finished')
 
 		self.generate_users()
 		self.stdout.write('generate_users finished')
