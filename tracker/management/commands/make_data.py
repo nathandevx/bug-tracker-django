@@ -32,16 +32,19 @@ class Command(BaseCommand):
 			user = self.User.objects.create(username=f'manager{i+1}', password=str(uuid.uuid4()), first_name=f'first{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Manager')
 			group.user_set.add(user)
+			user.date_joined = get_random_date()
 			user.save()
 		for i in range(5):
 			user = self.User.objects.create(username=f'developer{i+1}', password=str(uuid.uuid4()), first_name=f'firstd{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Developer')
 			group.user_set.add(user)
+			user.date_joined = get_random_date()
 			user.save()
 		for i in range(20):
 			user = self.User.objects.create(username=f'submitter{i+1}', password=str(uuid.uuid4()), first_name=f'firsts{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Submitter')
 			group.user_set.add(user)
+			user.date_joined = get_random_date()
 			user.save()
 
 	def generate_trackers(self):
