@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from bug_tracker.constants import YEAR
 
 
 class TimestampCreatorMixin(models.Model):
@@ -76,7 +77,7 @@ class Ticket(TimestampCreatorMixin):
 		verbose_name_plural = "Tickets"
 
 	@classmethod
-	def get_year_months_total_tickets(cls, year: int = 2023):
+	def get_year_months_total_tickets(cls, year: int = YEAR):
 		"""
 		:param year: The year.
 		:return: A tuple of 2 lists. The first being a list of the months. The other being a list of the total

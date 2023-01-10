@@ -14,3 +14,4 @@ PAG_BY = 10
 SUPERUSER_USERNAME = str(env('SUPERUSER_USERNAME'))
 
 MONTH = 2628288
+YEAR = 2023  # todo make this the current year
