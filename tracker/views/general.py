@@ -9,6 +9,13 @@ class Dashboard(GroupsRequiredMixin, TemplateView):
 	template_name = 'tracker/dashboard/dashboard.html'
 	groups = ALL_GROUPS
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		result = Ticket.get_year_months_total_tickets()
+		context['months'] = result[0]
+		context['data'] = result[1]
+		return context
+
 
 class AllTicketListView(GroupsRequiredMixin, ListView):
 	model = Ticket
