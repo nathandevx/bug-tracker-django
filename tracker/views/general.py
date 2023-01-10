@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, ListView
+from django.contrib.auth import get_user_model
 
 from bug_tracker.constants import ALL_GROUPS, PAG_BY
 from tracker.mixins import GroupsRequiredMixin
@@ -12,8 +13,11 @@ class Dashboard(GroupsRequiredMixin, TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		result = Ticket.get_year_months_total_tickets()
-		context['months'] = result[0]
-		context['data'] = result[1]
+		context['ticket_months'] = result[0]
+		context['ticket_data'] = result[1]
+		result = get_user_model().get_year_months_total_users()
+		context['user_months'] = result[0]
+		context['user_data'] = result[1]
 		return context
 
 
