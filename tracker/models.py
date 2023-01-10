@@ -75,6 +75,20 @@ class Ticket(TimestampCreatorMixin):
 		verbose_name = "Ticket"
 		verbose_name_plural = "Tickets"
 
+	@classmethod
+	def get_year_months_total_tickets(cls, year: int = 2023):
+		"""
+		:param year: The year.
+		:return: A tuple of 2 lists. The first being a list of the months. The other being a list of the total
+		number of tickets created in that month.
+		"""
+		months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		months_ticket_totals = []
+		for i, month in enumerate(months):
+			total = cls.objects.filter(created_at__year=year, created_at__month=i+1).count()
+			months_ticket_totals.append(total)
+		return months, months_ticket_totals
+
 
 class TicketComment(TimestampCreatorMixin):
 	title = models.CharField(verbose_name="Title", default='', max_length=20)
