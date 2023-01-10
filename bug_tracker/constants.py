@@ -12,3 +12,5 @@ TIMESTAMP_EXCLUDE = ['creator', 'updater', 'created_at', 'updated_at']
 PAG_BY = 10
 
 SUPERUSER_USERNAME = str(env('SUPERUSER_USERNAME'))
+
+MONTH = 2628288
