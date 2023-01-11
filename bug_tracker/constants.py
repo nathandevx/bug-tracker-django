@@ -2,10 +2,12 @@ import environ
 
 env = environ.Env()
 
+SUPERUSER = 'Superuser'
 MANAGER = 'Manager'
 DEVELOPER = 'Developer'
 REQUESTER = 'Requester'
 ALL_GROUPS = [MANAGER, DEVELOPER, REQUESTER]
+ADMINS = [SUPERUSER, MANAGER]
 
 TIMESTAMP_EXCLUDE = ['creator', 'updater', 'created_at', 'updated_at']
 
