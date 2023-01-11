@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth import get_user_model
 
-from bug_tracker.constants import ALL_GROUPS, PAG_BY
+from bug_tracker.constants import ALL_GROUPS, PAG_BY, ADMINS
 from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
 
@@ -18,6 +18,8 @@ class Dashboard(GroupsRequiredMixin, TemplateView):
 		result = get_user_model().get_year_months_total_users()
 		context['user_months'] = result[0]
 		context['user_data'] = result[1]
+		context['users'] = get_user_model().get_all_users_not_superuser()
+		context['access'] = self.request.user.groups.filter(name__in=ADMINS).exists()
 		return context
 
 
