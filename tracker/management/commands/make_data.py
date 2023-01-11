@@ -6,7 +6,7 @@ from random import randint, choice
 import uuid
 
 from tracker.models import Tracker, Ticket, TicketComment
-from bug_tracker.utils import get_random_date, get_random_date_after_a_date
+from bug_tracker.utils import get_random_date, get_random_date_after_a_date, get_random_phone_number
 from bug_tracker.constants import SUPERUSER_USERNAME, MONTH
 
 
@@ -29,22 +29,25 @@ class Command(BaseCommand):
 		Generates Users and assigns them to Managers, Developers, or Submitters
 		"""
 		for i in range(3):
-			user = self.User.objects.create(username=f'manager{i+1}', password=str(uuid.uuid4()), first_name=f'first{i+1}', last_name=f'last{i+1}')
+			user = self.User.objects.create(username=f'manager{i+1}', email=f'manager{i+1}@example.com', password=str(uuid.uuid4()), first_name=f'first{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Manager')
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
+			user.phone_number = get_random_phone_number()
 			user.save()
 		for i in range(5):
-			user = self.User.objects.create(username=f'developer{i+1}', password=str(uuid.uuid4()), first_name=f'firstd{i+1}', last_name=f'last{i+1}')
+			user = self.User.objects.create(username=f'developer{i+1}', email=f'developer{i+1}@example.com', password=str(uuid.uuid4()), first_name=f'firstd{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Developer')
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
+			user.phone_number = get_random_phone_number()
 			user.save()
 		for i in range(20):
-			user = self.User.objects.create(username=f'submitter{i+1}', password=str(uuid.uuid4()), first_name=f'firsts{i+1}', last_name=f'last{i+1}')
+			user = self.User.objects.create(username=f'submitter{i+1}', email=f'submitter{i+1}@example.com', password=str(uuid.uuid4()), first_name=f'firsts{i+1}', last_name=f'last{i+1}')
 			group = Group.objects.get(name='Submitter')
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
+			user.phone_number = get_random_phone_number()
 			user.save()
 
 	def generate_trackers(self):
