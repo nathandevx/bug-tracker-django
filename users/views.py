@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, CreateView, FormView
 from django.shortcuts import reverse, redirect
 from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.models import Group
+
 from .model_forms import UserModelForm
 from .forms import LoginForm
 
@@ -11,10 +13,12 @@ class SignUpView(CreateView):
 	template_name = 'users/signup.html'
 
 	def form_valid(self, form):
-		# low check if username exists (built in)
+		# todo check if username exists (built in)
 		user = form.save(commit=False)
 		user.set_password(form.cleaned_data['password'])
 		user.save()
+		group = Group.objects.get(name='Submitter')
+		group.user_set.add(user)
 		user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
 		login(self.request, user)
 		return super().form_valid(form)
