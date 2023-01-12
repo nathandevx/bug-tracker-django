@@ -12,14 +12,23 @@ class Dashboard(GroupsRequiredMixin, TemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		sort = self.request.GET.get('sort')
+		order = self.request.GET.get('order', 'asc')
+
+		# Ticket data
 		result = Ticket.get_year_months_total_tickets()
 		context['ticket_months'] = result[0]
 		context['ticket_data'] = result[1]
+
+		# User data
 		result = get_user_model().get_year_months_total_users()
 		context['user_months'] = result[0]
 		context['user_data'] = result[1]
-		context['users'] = get_user_model().get_all_users_not_superuser()
+		context['users'] = get_user_model().get_all_users_not_superuser(sort, order)
+
+		# More
 		context['access'] = self.request.user.groups.filter(name__in=ADMINS).exists()
+		context['order'] = order
 		return context
 
 

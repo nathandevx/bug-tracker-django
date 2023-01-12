@@ -3,11 +3,11 @@
         <thead class="table-dark">
             <tr>
                 <th scope="col"># </th>
-                <th scope="col">User <i class="fa-solid fa-arrows-up-down"></i></th>
-                <th scope="col">Role <i class="fa-solid fa-arrows-up-down"></i></th>
+                <th scope="col"><a href="?sort=username&order={% if order == 'desc' %}asc{% else %}desc{% endif %}#users-table-anchor" class="no-link-style">User <i class="fa-solid fa-arrows-up-down"></i></a></th>
+                <th scope="col"><a href="?sort=role&order={% if order == 'desc' %}asc{% else %}desc{% endif %}#users-table-anchor" class="no-link-style">Role <i class="fa-solid fa-arrows-up-down"></i></a></th>
                 <th scope="col">Email</th>
-                <th scope="col">Phone #</th>
-                <th scope="col">Joined Date <i class="fa-solid fa-arrows-up-down"></i></th>
+                <th scope="col">Phone Number</th>
+	            <th scope="col"><a href="?sort=date_joined&order={% if order == 'desc' %}asc{% else %}desc{% endif %}#users-table-anchor" class="no-link-style">Date Joined <i class="fa-solid fa-arrows-up-down"></i></a></th>
                 {% if access %}<th scope="col">Actions</th>{% endif %}
             </tr>
         </thead>
@@ -15,10 +15,10 @@
             {% for obj in users %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td><a href="#">{{ obj.username }}</a></td>
+                    <td>{{ obj.username }}</td>
                     <td>{% if obj.groups.all.0 %}{{ obj.groups.all.0 }}{% else %}None{% endif %}</td>
                     <td>{% if obj.email %}{{ obj.email }}{% else %}None{% endif %}</td>
-                    <td>{% if obj.phone_number %}{{ obj.phone_number }}{% else %}None{% endif %}</td>
+                    <td>{% if obj.phone_number != '000-000-0000' %}{{ obj.phone_number }}{% else %}None{% endif %}</td>
                     <td>{{ obj.date_joined|date:"m/d/Y" }}</td>
                     {% if access %}<td><a href="#">Edit</a> | <a class="link-danger" href="#">Remove</a></td>{% endif %}
                 </tr>
