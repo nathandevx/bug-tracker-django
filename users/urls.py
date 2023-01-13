@@ -5,6 +5,7 @@ app_name = 'users'
 urlpatterns = [
 	path('register/', views.SignUpView.as_view(), name='register'),
 	path("login/", views.LoginView.as_view(), name="login"),
-    path("logout/", views.logout_view, name="logout"),
-    # path("update-profile/", views.UpdateProfileView.as_view(), name="update-profile"),  # todo add extra fields like phone, email, etc
+	path("logout/", views.logout_view, name="logout"),
+	path("update/<int:pk>/", views.UserUpdateView.as_view(), name="update"),
+	path("detail/<int:pk>/", views.UserDetailView.as_view(), name="detail"),
 ]

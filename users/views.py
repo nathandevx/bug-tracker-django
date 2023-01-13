@@ -1,10 +1,14 @@
-from django.views.generic import TemplateView, CreateView, FormView
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import TemplateView, CreateView, FormView, UpdateView, DetailView
 from django.shortcuts import reverse, redirect
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.models import Group
 
+from tracker.mixins import GroupsRequiredMixin
+from tracker.models import Ticket
 from .model_forms import UserModelForm
 from .forms import LoginForm
+from bug_tracker.constants import ADMINS, ALL_GROUPS
 
 
 class SignUpView(CreateView):
@@ -43,6 +47,33 @@ class LoginView(FormView):
 
 	def get_success_url(self):
 		return reverse('home:home')
+
+
+class UserUpdateView(UserPassesTestMixin, UpdateView):
+	model = get_user_model()
+	form_class = UserModelForm
+	template_name = 'users/update.html'
+
+	def get_success_url(self):
+		return self.object.get_absolute_url()
+
+	def test_func(self):
+		is_creator = self.get_object() == self.request.user
+		is_admin = self.request.user.groups.filter(name__in=ADMINS).exists()
+		return is_creator or is_admin
+
+
+class UserDetailView(GroupsRequiredMixin, DetailView):
+	model = get_user_model()
+	template_name = 'users/detail.html'
+	groups = ALL_GROUPS
+
+	# def get_context_data(self, **kwargs):
+	# 	context = super().get_context_data(**kwargs)
+		# todo what if they are a developer or manager? what should they see
+		# context['tickets'] = Ticket.objects.filter(creator=self.request.user)
+		# context['access'] = self.object == self.request.user
+		# return context
 
 
 def logout_view(request):
