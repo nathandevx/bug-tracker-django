@@ -6,7 +6,7 @@ SUPERUSER = 'Superuser'
 MANAGER = 'Manager'
 DEVELOPER = 'Developer'
 REQUESTER = 'Requester'
-ALL_GROUPS = [MANAGER, DEVELOPER, REQUESTER]
+ALL_GROUPS = [SUPERUSER, MANAGER, DEVELOPER, REQUESTER]
 ADMINS = [SUPERUSER, MANAGER]
 
 TIMESTAMP_EXCLUDE = ['creator', 'updater', 'created_at', 'updated_at']
