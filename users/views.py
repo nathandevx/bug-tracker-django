@@ -10,6 +10,8 @@ from .model_forms import UserModelForm
 from .forms import LoginForm
 from bug_tracker.constants import ADMINS, ALL_GROUPS
 
+# todo change the model name of all user views
+
 
 class SignUpView(CreateView):
 	model = get_user_model()
@@ -53,6 +55,7 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
 	model = get_user_model()
 	form_class = UserModelForm
 	template_name = 'users/update.html'
+	context_object_name = 'user_obj'  # needed or will conflict with default 'user' template variable
 
 	def get_success_url(self):
 		return self.object.get_absolute_url()
@@ -67,8 +70,9 @@ class UserDetailView(GroupsRequiredMixin, DetailView):
 	model = get_user_model()
 	template_name = 'users/detail.html'
 	groups = ALL_GROUPS
+	context_object_name = 'user_obj'  # needed or will conflict with default 'user' template variable
 
-	# def get_context_data(self, **kwargs):
+# def get_context_data(self, **kwargs):
 	# 	context = super().get_context_data(**kwargs)
 		# todo what if they are a developer or manager? what should they see
 		# context['tickets'] = Ticket.objects.filter(creator=self.request.user)
