@@ -38,6 +38,7 @@ class User(AbstractUser):
 		elif sort == 'date_joined':
 			return cls.objects.exclude(username=SUPERUSER_USERNAME).order_by(f'{ordering}date_joined')
 		# default sort by role
+		# todo what if they are not in a group
 		return cls.objects.exclude(username=SUPERUSER_USERNAME).annotate(group_order=Case(
 			When(groups__name='Manager', then=0),
 			When(groups__name='Developer', then=1),
