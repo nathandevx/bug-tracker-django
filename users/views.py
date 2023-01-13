@@ -8,7 +8,8 @@ from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
 from .model_forms import UserModelForm
 from .forms import LoginForm
-from bug_tracker.constants import ADMINS, ALL_GROUPS
+from bug_tracker.constants import SUPERUSER, ALL_GROUPS
+from bug_tracker.utils import is_member
 
 # todo change the model name of all user views
 
@@ -62,7 +63,7 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
 
 	def test_func(self):
 		is_creator = self.get_object() == self.request.user
-		is_admin = self.request.user.groups.filter(name__in=ADMINS).exists()
+		is_admin = is_member(self.request.user, SUPERUSER)
 		return is_creator or is_admin
 
 
