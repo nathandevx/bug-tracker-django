@@ -1,12 +1,18 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Case, When, IntegerField
-
+from django.shortcuts import reverse
 from bug_tracker.constants import YEAR, SUPERUSER_USERNAME
 
 
 class User(AbstractUser):
 	phone_number = models.CharField(max_length=20, default='000-000-0000')
+
+	def __str__(self):
+		return self.username
+
+	def get_absolute_url(self):
+		return reverse('users:detail', kwargs={'pk': self.pk})
 
 	@classmethod
 	def get_year_months_total_users(cls, year: int = YEAR):
