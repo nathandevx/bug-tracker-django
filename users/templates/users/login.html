@@ -4,11 +4,11 @@
 
     <div class="container-fluid text-center">
         <h1>Login</h1>
-		<form method="post">
+		<p>{{ form.errors }}</p>
+		<form method="POST">
 		    {% csrf_token %}
 			{{ form.as_p }}
-			{{ form.errors }}
-		    <input type="submit" value="Submit">
+            <button class="btn btn-primary" type="submit" value="Save">Submit</button>
 		</form>
     </div>
 {% endblock %}
