@@ -4,11 +4,11 @@
 
 {% block contents %}
 
-    <div class="container-fluid form-width">
+    <div class="container-fluid text-center">
         <h1 class="text-center">Update Profile</h1>
         <form method="POST">
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <br>
             <button class="btn btn-primary" type="submit" value="Save">Submit</button>
         </form>
