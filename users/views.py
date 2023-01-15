@@ -48,7 +48,7 @@ class LoginView(FormView):
 			return self.form_invalid(form)
 
 	def get_success_url(self):
-		return reverse('home:home')
+		return reverse('tracker:dashboard')
 
 
 class UpdateProfileView(UserPassesTestMixin, UpdateView):
