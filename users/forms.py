@@ -6,9 +6,9 @@ class UserBaseForm(forms.ModelForm):
 	class Meta:
 		model = get_user_model()
 		fields = ['username', 'password']
-		widgets = {
-			'password': forms.PasswordInput()
-		}
+		# widgets = {
+		# 	'password': forms.PasswordInput()
+		# }
 
 	def save(self, commit=True):
 		user = super().save(commit=False)
@@ -20,4 +20,4 @@ class UserBaseForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
 	username = forms.CharField(max_length=50)
-	password = forms.CharField(max_length=50, widget=forms.PasswordInput)
+	password = forms.CharField(max_length=128, widget=forms.PasswordInput)
