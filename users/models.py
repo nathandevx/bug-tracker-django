@@ -6,7 +6,7 @@ from bug_tracker.constants import YEAR, SUPERUSER_USERNAME
 
 
 class User(AbstractUser):
-	phone_number = models.CharField(max_length=20, default='000-000-0000')
+	phone_number = models.CharField(max_length=20, default=None)
 
 	def __str__(self):
 		return self.username
