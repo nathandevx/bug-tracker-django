@@ -2,11 +2,27 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Case, When, IntegerField
 from django.shortcuts import reverse
+from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
+
 from bug_tracker.constants import YEAR, SUPERUSER_USERNAME
 
 
 class User(AbstractUser):
 	phone_number = models.CharField(max_length=20, default=None)
+	username = models.CharField(
+		_("username"), max_length=50, unique=True,
+		help_text=_("50 characters or less. Letters and digits only."),
+		validators=[
+			RegexValidator(
+				r'^[0-9a-zA-Z]*$',
+				'Only letters and numbers are allowed'
+			)
+		],
+		error_messages={
+			"unique": _("A user with that username already exists."),
+		},
+	)
 
 	def __str__(self):
 		return self.username
@@ -51,4 +67,3 @@ class User(AbstractUser):
 			When(groups__name='Submitter', then=2),
 			output_field=IntegerField()
 		)).order_by(f'{ordering}group_order')
-
