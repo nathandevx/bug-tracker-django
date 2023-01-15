@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 
 from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
-from .forms import UserBaseForm
+from .forms import UserBaseForm, LoginForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS
 from bug_tracker.utils import is_member
 
@@ -34,7 +34,7 @@ class SignUpView(CreateView):
 
 
 class LoginView(FormView):
-	form_class = UserBaseForm
+	form_class = LoginForm
 	template_name = 'users/login.html'
 
 	def form_valid(self, form):
