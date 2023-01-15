@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 
 from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
-from .forms import LoginForm, UserModelForm
+from .forms import UserBaseForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS
 from bug_tracker.utils import is_member
 
@@ -15,7 +15,7 @@ from bug_tracker.utils import is_member
 
 class SignUpView(CreateView):
 	model = get_user_model()
-	form_class = UserModelForm
+	form_class = UserBaseForm
 	template_name = 'users/signup.html'
 
 	def form_valid(self, form):
@@ -34,7 +34,7 @@ class SignUpView(CreateView):
 
 
 class LoginView(FormView):
-	form_class = LoginForm
+	form_class = UserBaseForm
 	template_name = 'users/login.html'
 
 	def form_valid(self, form):
@@ -51,9 +51,9 @@ class LoginView(FormView):
 		return reverse('home:home')
 
 
-class UserUpdateView(UserPassesTestMixin, UpdateView):
+class UpdateProfileView(UserPassesTestMixin, UpdateView):
 	model = get_user_model()
-	form_class = UserModelForm
+	form_class = UserBaseForm
 	template_name = 'users/update.html'
 	context_object_name = 'user_obj'  # needed or will conflict with default 'user' template variable
 
@@ -66,7 +66,7 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
 		return is_creator or is_admin
 
 
-class UserDetailView(GroupsRequiredMixin, DetailView):
+class ProfileView(GroupsRequiredMixin, DetailView):
 	model = get_user_model()
 	template_name = 'users/detail.html'
 	groups = ALL_GROUPS
