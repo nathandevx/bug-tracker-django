@@ -6,12 +6,20 @@
 
     <div class="container-fluid text-center">
         <h1 class="text-center">Update Profile</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <button class="btn btn-primary" type="submit" value="Save">Submit</button>
-        </form>
+		<form method="POST">
+	        {% csrf_token %}
+	        <div class="mb-3">
+	            {{form.username.label_tag}}
+	            {{form.username}}
+		        <p class="text-danger">{{form.username.errors|join:', '}}</p>
+	        </div>
+	        <div class="mb-3">
+	            {{form.password.label_tag}}
+	            {{form.password}}
+		        <p>{{form.password.errors|join:', '}}</p>
+	        </div>
+		    <input type="submit" value="Submit" class="btn btn-primary">
+	    </form>
     </div>
 
 {% endblock %}
