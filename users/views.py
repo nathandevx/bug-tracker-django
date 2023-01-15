@@ -6,8 +6,7 @@ from django.contrib.auth.models import Group
 
 from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
-from .model_forms import UserModelForm
-from .forms import LoginForm
+from .forms import LoginForm, UserModelForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS
 from bug_tracker.utils import is_member
 
