@@ -87,4 +87,3 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 def logout_view(request):
 	logout(request)
 	return redirect(reverse('home:home'))
-
