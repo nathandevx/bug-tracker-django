@@ -20,7 +20,10 @@
                             <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item" id="logout-nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:detail' user.pk %}">Profile</a>
+                    </li>
+	                <li class="nav-item" id="logout-nav-item">
                         <a class="nav-link" id="logout-nav-link" href="{% url 'users:logout' %}">Logout</a>
                     </li>
                 {% else %}
