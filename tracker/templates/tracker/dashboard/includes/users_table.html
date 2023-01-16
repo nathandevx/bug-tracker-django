@@ -3,6 +3,7 @@
         <thead class="table-dark">
             <tr>
                 <th scope="col"># </th>
+	            {# todo username -> name #}
                 <th scope="col"><a href="?sort=username&order={% if order == 'desc' %}asc{% else %}desc{% endif %}#users-table-anchor" class="no-link-style">User <i class="fa-solid fa-arrows-up-down"></i></a></th>
                 <th scope="col"><a href="?sort=role&order={% if order == 'desc' %}asc{% else %}desc{% endif %}#users-table-anchor" class="no-link-style">Role <i class="fa-solid fa-arrows-up-down"></i></a></th>
                 <th scope="col">Email</th>
