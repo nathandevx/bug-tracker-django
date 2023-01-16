@@ -76,12 +76,12 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 	groups = ALL_GROUPS
 	context_object_name = 'user_obj'  # needed or will conflict with default 'user' template variable
 
-# def get_context_data(self, **kwargs):
-	# 	context = super().get_context_data(**kwargs)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
 		# todo what if they are a developer or manager? what should they see
 		# context['tickets'] = Ticket.objects.filter(creator=self.request.user)
-		# context['access'] = self.object == self.request.user
-		# return context
+		context['access'] = (self.object == self.request.user) or (is_member(self.request.user, SUPERUSER))
+		return context
 
 
 def logout_view(request):
