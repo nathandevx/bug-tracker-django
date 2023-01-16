@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
 
 class UserBaseForm(forms.ModelForm):
@@ -24,3 +24,11 @@ class UpdateProfileForm(UserBaseForm):
 class LoginForm(forms.Form):
 	username = forms.CharField(max_length=50)
 	password = forms.CharField(max_length=128)
+
+	def clean(self):
+		cleaned_data = super().clean()
+		username = cleaned_data.get("username")
+		password = cleaned_data.get("password")
+		user = authenticate(username=username, password=password)
+		if not user:
+			self.add_error(None, "Incorrect username or password")
