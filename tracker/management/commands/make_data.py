@@ -10,6 +10,7 @@ from bug_tracker.utils import get_random_date, get_random_date_after_a_date, get
 from bug_tracker.constants import SUPERUSER_USERNAME, MONTH
 
 
+# todo wipe the database so that the pk URLs don't get too high
 class Command(BaseCommand):
 	"""
 	Fills database with dummy data.
