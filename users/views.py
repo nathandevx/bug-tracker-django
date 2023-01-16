@@ -53,7 +53,7 @@ class LoginView(FormView):
 
 class UpdateProfileView(UserPassesTestMixin, UpdateView):
 	model = get_user_model()
-	form_class = UserBaseForm
+	form_class = UpdateProfileForm
 	template_name = 'users/update.html'
 	context_object_name = 'user_obj'  # needed or will conflict with default 'user' template variable
 

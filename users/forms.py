@@ -16,6 +16,11 @@ class UserBaseForm(forms.ModelForm):
 			user.save()
 		return user
 
+class UpdateProfileForm(forms.ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ['username', 'first_name', 'last_name', 'email', 'phone_number']
+		# todo validate phone number input
 
 class UpdateProfileForm(UserBaseForm):
 	pass
