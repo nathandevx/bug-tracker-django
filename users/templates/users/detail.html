@@ -8,7 +8,8 @@
         <h1>Profile</h1>
         <p>{{ object.username }}</p>
 	    {% if access %}
-		    <p><a href="{% url 'users:update' object.pk %}">Update</a></p>
+		    <p><a href="{% url 'users:update' object.pk %}">Update profile</a></p>
+		    <p><a href="{% url 'users:update-password' object.pk %}">Update password</a></p>
 	    {% endif %}
     </div>
 
