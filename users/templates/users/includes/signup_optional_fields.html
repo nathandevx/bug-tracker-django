@@ -1,0 +1,29 @@
+<p>
+	<a class="text-primary" data-bs-toggle="collapse" href="#optionalFields" role="button" aria-expanded="false" aria-controls="optionalFields">View optional fields</a>
+</p>
+<div class="row collapse" id="optionalFields">
+	<div class="col-md-6 mb-3">
+		<label for="inputFirstName" class="form-label">{{form.first_name.label}}</label>
+		<input type="text" name="first_name" class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" id="inputFirstName" aria-describedby="firstNameHelp" maxlength="150">
+		<div id="firstNameHelp" class="form-text">150 characters or less. Letters and digits only.</div>
+		<div id="firstNameError" class="form-text text-danger">{{form.first_name.errors|join:', '}}</div>
+	</div>
+	<div class="col-md-6 mb-3">
+		<label for="inputLastName" class="form-label">{{form.last_name.label}}</label>
+		<input type="text" name="last_name" class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" id="inputLastName" aria-describedby="lastNameHelp" maxlength="150">
+		<div id="lastNameHelp" class="form-text">150 characters or less. Letters and digits only.</div>
+		<div id="lastNameError" class="form-text text-danger">{{form.last_name.errors|join:', '}}</div>
+	</div>
+	<div class="col-md-6 mb-3">
+		<label for="inputEmail" class="form-label">{{form.email.label}}</label>
+		<input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail" aria-describedby="emailHelp" maxlength="150">
+		<div id="emailHelp" class="form-text">150 characters or less.</div>
+		<div id="emailError" class="form-text text-danger">{{form.email.errors|join:', '}}</div>
+	</div>
+	<div class="col-md-6 mb-3">
+		<label for="inputPhoneNumber" class="form-label">{{form.phone_number.label}}</label>
+		<input type="tel" name="phone_number" class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}" id="inputPhoneNumber" aria-describedby="phoneNumberHelp" maxlength="20">
+		<div id="phoneNumberHelp" class="form-text">20 characters or less. Ex: 1-916-111-1111</div>
+		<div id="phoneNumberError" class="form-text text-danger">{{form.phone_number.errors|join:', '}}</div>
+	</div>
+</div>

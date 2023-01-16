@@ -3,13 +3,16 @@
 
 {% block contents %}
 
-    <div class="container-fluid text-center">
-        <h1>Create User</h1>
-		<form method="post">
-		    {% csrf_token %}
-		    {{ form.as_p }}
-			{{ form.errors }}
-		    <input type="submit" value="Submit">
-		</form>
+    <div class="container">
+        <h1 class="text-center">Sign Up</h1>
+		<form method="POST">
+	        {% csrf_token %}
+			<div class="row">
+				{% include 'users/includes/signup_required_fields.html' %}
+				{% include 'users/includes/signup_optional_fields.html' %}
+			</div>
+		    <input type="submit" value="Submit" class="btn btn-primary">
+	    </form>
     </div>
+
 {% endblock %}
