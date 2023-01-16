@@ -1,7 +1,7 @@
 <div class="col-md-6 mb-3">
 	<label for="inputUsername" class="form-label">{{form.username.label}}*</label>
 	<input type="text" name="username" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="inputUsername" value="{{ form.username.value }}" aria-describedby="usernameHelp" maxlength="50" required>
-	<div id="usernameHelp" class="form-text">{{ form.username.help_text }}</div>
+	<div id="usernameHelp" class="form-text">50 characters or less. Letters and digits only.</div>
 	<div id="usernameError" class="form-text text-danger">{{form.username.errors|join:', '}}</div>
 </div>
 <div class="col-md-6 mb-3">
