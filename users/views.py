@@ -15,19 +15,23 @@ from bug_tracker.utils import is_member
 
 class SignUpView(CreateView):
 	model = get_user_model()
-	form_class = UserBaseForm
+	form_class = SignupForm
 	template_name = 'users/signup.html'
 
 	def form_valid(self, form):
-		# todo check if username exists (built in)
 		user = form.save(commit=False)
 		user.set_password(form.cleaned_data['password'])
 		user.save()
 		group = Group.objects.get(name='Submitter')
 		group.user_set.add(user)
 		user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-		login(self.request, user)
-		return super().form_valid(form)
+		print(user)
+		print(self.request)
+		if user is not None:
+			login(self.request, user)
+			return super().form_valid(form)
+		else:
+			return self.form_invalid(form)
 
 	def get_success_url(self):
 		return reverse('tracker:dashboard')
