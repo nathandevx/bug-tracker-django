@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import TemplateView, CreateView, FormView, UpdateView, DetailView
-from django.shortcuts import reverse, redirect
-from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.shortcuts import reverse, redirect, render
+from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
+from django.contrib.auth.forms import PasswordChangeForm
 
 from tracker.mixins import GroupsRequiredMixin
-from tracker.models import Ticket
-from .forms import UserBaseForm, LoginForm
+from .forms import LoginForm, SignupForm, UpdateProfileForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS
 from bug_tracker.utils import is_member
 
@@ -68,6 +68,20 @@ class UpdateProfileView(UserPassesTestMixin, UpdateView):
 		is_creator = self.get_object() == self.request.user
 		is_admin = is_member(self.request.user, SUPERUSER)
 		return is_creator or is_admin
+
+
+def update_password(request, pk):
+	if request.method == 'POST':
+		form = PasswordChangeForm(request.user, request.POST)
+		if form.is_valid():
+			user = form.save()
+			update_session_auth_hash(request, user)  # lets the user stay logged in
+			return redirect(reverse('users:detail', kwargs={'pk': pk}))
+		else:
+			return redirect(reverse('users:update-password', kwargs={'pk': pk}))
+	else:
+		form = PasswordChangeForm(request.user)
+	return render(request, 'users/update_password.html', {'form': form})
 
 
 class ProfileView(GroupsRequiredMixin, DetailView):

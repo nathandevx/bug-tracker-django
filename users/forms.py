@@ -23,8 +23,11 @@ class UpdateProfileForm(forms.ModelForm):
 		fields = ['username', 'first_name', 'last_name', 'email', 'phone_number']
 		# todo validate phone number input
 
-class UpdateProfileForm(UserBaseForm):
-	pass
+
+class UpdatePasswordForm(forms.ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ['password']
 
 
 class LoginForm(forms.Form):
