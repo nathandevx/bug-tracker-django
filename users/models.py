@@ -9,7 +9,9 @@ from bug_tracker.constants import YEAR, SUPERUSER_USERNAME
 
 
 class User(AbstractUser):
-	phone_number = models.CharField(max_length=20, default=None)
+	first_name = models.CharField(_("first name"), max_length=50, blank=True)
+	last_name = models.CharField(_("last name"), max_length=50, blank=True)
+	phone_number = models.CharField(_("phone number"), max_length=20, default=None)  # todo make it a phone number type
 	username = models.CharField(
 		_("username"), max_length=50, unique=True,
 		help_text=_("50 characters or less. Letters and digits only."),
