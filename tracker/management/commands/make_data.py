@@ -19,6 +19,10 @@ class Command(BaseCommand):
 	"""
 	help = 'Fills database with dummy data.'
 	User = get_user_model()
+	manager_group = Group.objects.get(name=MANAGER)
+	developer_group = Group.objects.get(name=DEVELOPER)
+	submitter_group = Group.objects.get(name=SUBMITTER)
+	demo_group = Group.objects.get(name=DEMO)
 
 	@staticmethod
 	def delete_data():
@@ -31,17 +35,14 @@ class Command(BaseCommand):
 		"""
 		Generates users for demo login purposes
 		"""
-		manager_group = Group.objects.get(name=MANAGER)
-		developer_group = Group.objects.get(name=DEVELOPER)
-		submitter_group = Group.objects.get(name=SUBMITTER)
-		demo_group = Group.objects.get(name=DEMO)
+
 		# Generate demo manager
 		username, password, group, first_name, last_name, email, phone_number = MANAGER_CREDENTIALS.split(',')
 		user = self.User.objects.create(username=username, email=email, first_name=first_name, last_name=last_name)
 		user.date_joined = datetime.datetime.strptime("2023-01-18 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
 		user.phone_number = phone_number
 		user.set_password(password)
-		user.groups.add(manager_group, demo_group)
+		user.groups.add(self.manager_group, self.demo_group)
 		user.save()
 		# Generate demo developer
 		username, password, group, first_name, last_name, email, phone_number = DEVELOPER_CREDENTIALS.split(',')
@@ -49,7 +50,7 @@ class Command(BaseCommand):
 		user.date_joined = datetime.datetime.strptime("2023-01-19 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
 		user.phone_number = phone_number
 		user.set_password(password)
-		user.groups.add(developer_group, demo_group)
+		user.groups.add(self.developer_group, self.demo_group)
 		user.save()
 		# Generate demo submitter
 		username, password, group, first_name, last_name, email, phone_number = SUBMITTER_CREDENTIALS.split(',')
@@ -57,7 +58,7 @@ class Command(BaseCommand):
 		user.date_joined = datetime.datetime.strptime("2023-01-20 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
 		user.phone_number = phone_number
 		user.set_password(password)
-		user.groups.add(submitter_group, demo_group)
+		user.groups.add(self.submitter_group, self.demo_group)
 		user.save()
 
 	def generate_users(self):
@@ -66,27 +67,24 @@ class Command(BaseCommand):
 		"""
 		for i in range(3):
 			user = self.User.objects.create(username=f'manager{i+1}', email=f'manager{i+1}@example.com', first_name=f'first{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name=MANAGER)
-			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
 			user.set_password(str(uuid.uuid4()))
+			user.groups.add(self.manager_group)
 			user.save()
 		for i in range(5):
 			user = self.User.objects.create(username=f'developer{i+1}', email=f'developer{i+1}@example.com', first_name=f'firstd{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name=DEVELOPER)
-			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
 			user.set_password(str(uuid.uuid4()))
+			user.groups.add(self.developer_group)
 			user.save()
 		for i in range(20):
 			user = self.User.objects.create(username=f'submitter{i+1}', email=f'submitter{i+1}@example.com', first_name=f'firsts{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name=SUBMITTER)
-			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
 			user.set_password(str(uuid.uuid4()))
+			user.groups.add(self.submitter_group)
 			user.save()
 
 	def generate_trackers(self):
