@@ -25,8 +25,6 @@ class SignUpView(CreateView):
 		group = Group.objects.get(name='Submitter')
 		group.user_set.add(user)
 		user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-		print(user)
-		print(self.request)
 		if user is not None:
 			login(self.request, user)
 			return super().form_valid(form)
