@@ -68,7 +68,6 @@ class UpdateProfileView(UserPassesTestMixin, UpdateView):
 		is_admin = is_member(self.request.user, SUPERUSER)
 		return is_creator or is_admin
 
-
 def update_password(request, pk):
 	if request.method == 'POST':
 		form = PasswordChangeForm(request.user, request.POST)
@@ -92,7 +91,6 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		# todo what if they are a developer or manager? what should they see
-		# context['tickets'] = Ticket.objects.filter(creator=self.request.user)
 		context['access'] = (self.object == self.request.user) or (is_member(self.request.user, SUPERUSER))
 		return context
 
