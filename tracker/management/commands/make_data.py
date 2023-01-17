@@ -4,10 +4,11 @@ from django.contrib.auth.models import Group
 
 from random import randint, choice
 import uuid
+import datetime
 
 from tracker.models import Tracker, Ticket, TicketComment
 from bug_tracker.utils import get_random_date, get_random_date_after_a_date, get_random_phone_number
-from bug_tracker.constants import SUPERUSER_USERNAME, MONTH
+from bug_tracker.constants import MANAGER, DEVELOPER, SUBMITTER, SUPERUSER_USERNAME, MONTH, MANAGER_CREDENTIALS, DEVELOPER_CREDENTIALS, SUBMITTER_CREDENTIALS
 
 
 # todo wipe the database so that the pk URLs don't get too high
@@ -24,6 +25,38 @@ class Command(BaseCommand):
 		Ticket.objects.all().delete()
 		TicketComment.objects.all().delete()
 		get_user_model().objects.exclude(username='code').delete()
+
+	def generate_demo_users(self):
+		"""
+		Generates users for demo login purposes
+		"""
+		# Generate demo manager
+		username, password, group, first_name, last_name, email, phone_number = MANAGER_CREDENTIALS.split(',')
+		user = self.User.objects.create(username=username, email=email, first_name=first_name, last_name=last_name)
+		group = Group.objects.get(name=MANAGER)
+		group.user_set.add(user)
+		user.date_joined = datetime.datetime.strptime("2023-01-18 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
+		user.phone_number = phone_number
+		user.set_password(password)
+		user.save()
+		# Generate demo developer
+		username, password, group, first_name, last_name, email, phone_number = DEVELOPER_CREDENTIALS.split(',')
+		user = self.User.objects.create(username=username, email=email, first_name=first_name, last_name=last_name)
+		group = Group.objects.get(name=DEVELOPER)
+		group.user_set.add(user)
+		user.date_joined = datetime.datetime.strptime("2023-01-19 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
+		user.phone_number = phone_number
+		user.set_password(password)
+		user.save()
+		# Generate demo submitter
+		username, password, group, first_name, last_name, email, phone_number = SUBMITTER_CREDENTIALS.split(',')
+		user = self.User.objects.create(username=username, email=email, first_name=first_name, last_name=last_name)
+		group = Group.objects.get(name=SUBMITTER)
+		group.user_set.add(user)
+		user.date_joined = datetime.datetime.strptime("2023-01-20 04:15:02.560548", "%Y-%m-%d %H:%M:%S.%f")
+		user.phone_number = phone_number
+		user.set_password(password)
+		user.save()
 
 	def generate_users(self):
 		"""
