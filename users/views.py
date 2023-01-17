@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, FormView, UpdateView, DetailView
 from django.shortcuts import reverse, redirect, render
 from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
@@ -11,6 +11,7 @@ from .forms import LoginForm, SignupForm, UpdateProfileForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS, MANAGER_CREDENTIALS, DEVELOPER_CREDENTIALS, SUBMITTER_CREDENTIALS
 from bug_tracker.utils import is_member
 
+
 # todo password reset?
 # todo - demo users - what if they're logged in, should they not be given "delete" permissions?
 # todo user passes test do not allow users to access login/signup pages if logged in
@@ -18,7 +19,7 @@ from bug_tracker.utils import is_member
 # todo - update profile / update password. Check if user=user or if superuser. Can they access without account or not as superuser?
 # todo - shouldn't be able to update anything about demo users
 # todo - add margin below submit button
-class SignUpView(CreateView):
+class SignUpView(UserPassesTestMixin, CreateView):
 	model = get_user_model()
 	form_class = SignupForm
 	template_name = 'users/signup.html'
@@ -39,8 +40,12 @@ class SignUpView(CreateView):
 	def get_success_url(self):
 		return reverse('tracker:dashboard')
 
+	def test_func(self):
+		# don't allow logged in users to access page
+		return not self.request.user.is_authenticated
 
-class LoginView(FormView):
+
+class LoginView(UserPassesTestMixin, FormView):
 	form_class = LoginForm
 	template_name = 'users/login.html'
 
@@ -56,6 +61,10 @@ class LoginView(FormView):
 
 	def get_success_url(self):
 		return reverse('tracker:dashboard')
+
+	def test_func(self):
+		# don't allow logged in users to access page
+		return not self.request.user.is_authenticated
 
 
 class UpdateProfileView(UserPassesTestMixin, UpdateView):
@@ -102,6 +111,7 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 def logout_view(request):
 	logout(request)
 	return redirect(reverse('home:home'))
+
 
 def demo_manager(request):
 	username, password, group, first_name, last_name, email, phone_number = MANAGER_CREDENTIALS.split(',')
