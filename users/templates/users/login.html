@@ -10,7 +10,8 @@
 			<div class="row">
 				{% include 'users/includes/login_fields.html' %}
 			</div>
-		    <input type="submit" value="Submit" class="btn btn-primary">
+		    <input type="submit" value="Submit" class="btn btn-primary mb-3">
+			<p>Or <a href="{% url 'users:register' %}">Sign Up</a></p>
 		</form>
     </div>
 {% endblock %}
