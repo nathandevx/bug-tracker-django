@@ -4,7 +4,7 @@
 {% block contents %}
     <div class="container-fluid width">
         <h1>Dashboard: for all trackers</h1>
-		<h2>Logged in as: {{ user.get_username }}</h2>
+		<h2>Logged in as: <span class="text-danger">{{ user.get_username }}</span></h2>
 	    <p>Breadcrumbs...: tracker list, </p>
 
         <h3>Card links (every tracker's tickets)</h3>
