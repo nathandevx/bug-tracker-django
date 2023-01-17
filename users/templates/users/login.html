@@ -5,6 +5,7 @@
 
     <div class="container">
         <h1 class="text-center form-title">Login</h1>
+		{% include 'users/includes/demo_users.html' %}
 		<form method="POST">
 		    {% csrf_token %}
 			<div class="row">

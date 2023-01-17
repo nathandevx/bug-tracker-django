@@ -4,10 +4,11 @@ from django.shortcuts import reverse, redirect, render
 from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import HttpResponseServerError
 
 from tracker.mixins import GroupsRequiredMixin
 from .forms import LoginForm, SignupForm, UpdateProfileForm
-from bug_tracker.constants import SUPERUSER, ALL_GROUPS
+from bug_tracker.constants import SUPERUSER, ALL_GROUPS, MANAGER_CREDENTIALS, DEVELOPER_CREDENTIALS, SUBMITTER_CREDENTIALS
 from bug_tracker.utils import is_member
 
 # todo password reset?
@@ -99,3 +100,32 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 def logout_view(request):
 	logout(request)
 	return redirect(reverse('home:home'))
+
+def demo_manager(request):
+	username, password, group, first_name, last_name, email, phone_number = MANAGER_CREDENTIALS.split(',')
+	user = authenticate(request, username=username, password=password)
+	if user is not None:
+		login(request, user)
+		return redirect(reverse('tracker:dashboard'))
+	else:
+		return HttpResponseServerError()
+
+
+def demo_developer(request):
+	username, password, group, first_name, last_name, email, phone_number = DEVELOPER_CREDENTIALS.split(',')
+	user = authenticate(request, username=username, password=password)
+	if user is not None:
+		login(request, user)
+		return redirect(reverse('tracker:dashboard'))
+	else:
+		return HttpResponseServerError()
+
+
+def demo_submitter(request):
+	username, password, group, first_name, last_name, email, phone_number = SUBMITTER_CREDENTIALS.split(',')
+	user = authenticate(request, username=username, password=password)
+	if user is not None:
+		login(request, user)
+		return redirect(reverse('tracker:dashboard'))
+	else:
+		return HttpResponseServerError()
