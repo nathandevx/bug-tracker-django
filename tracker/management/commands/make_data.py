@@ -64,7 +64,7 @@ class Command(BaseCommand):
 		"""
 		for i in range(3):
 			user = self.User.objects.create(username=f'manager{i+1}', email=f'manager{i+1}@example.com', first_name=f'first{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name='Manager')
+			group = Group.objects.get(name=MANAGER)
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
@@ -72,7 +72,7 @@ class Command(BaseCommand):
 			user.save()
 		for i in range(5):
 			user = self.User.objects.create(username=f'developer{i+1}', email=f'developer{i+1}@example.com', first_name=f'firstd{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name='Developer')
+			group = Group.objects.get(name=DEVELOPER)
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
@@ -80,7 +80,7 @@ class Command(BaseCommand):
 			user.save()
 		for i in range(20):
 			user = self.User.objects.create(username=f'submitter{i+1}', email=f'submitter{i+1}@example.com', first_name=f'firsts{i+1}', last_name=f'last{i+1}')
-			group = Group.objects.get(name='Submitter')
+			group = Group.objects.get(name=SUBMITTER)
 			group.user_set.add(user)
 			user.date_joined = get_random_date()
 			user.phone_number = get_random_phone_number()
@@ -94,7 +94,7 @@ class Command(BaseCommand):
 		"""
 		for i in range(10):
 			# Gets user in group "Manager", excluding the superuser, in random order, and gets the first result
-			user = self.User.objects.filter(groups__name='Manager').exclude(username=SUPERUSER_USERNAME).order_by('?').first()
+			user = self.User.objects.filter(groups__name=MANAGER).exclude(username=SUPERUSER_USERNAME).order_by('?').first()
 			tracker = Tracker.objects.create(title=f'tracker{i+1}', description='desc', creator=user, updater=user)
 			tracker.created_at = get_random_date()  # todo what if a Ticket/TicketComment 'created_at' is before the tracker's 'created_at'
 			tracker.updated_at = get_random_date_after_a_date(tracker.created_at, MONTH)
@@ -111,9 +111,9 @@ class Command(BaseCommand):
 			priority = Ticket.PRIORITY_CHOICES[randint(0, 2)][0]
 
 			# Get 0-3 random developers
-			developers = self.User.objects.filter(groups__name='Developer').exclude(username=SUPERUSER_USERNAME).order_by('?')[:randint(0, 3)]
+			developers = self.User.objects.filter(groups__name=DEVELOPER).exclude(username=SUPERUSER_USERNAME).order_by('?')[:randint(0, 3)]
 			# Get a random submitter
-			submitter = self.User.objects.filter(groups__name='Submitter').exclude(username=SUPERUSER_USERNAME).order_by('?').first()
+			submitter = self.User.objects.filter(groups__name=SUBMITTER).exclude(username=SUPERUSER_USERNAME).order_by('?').first()
 			# Get a random tracker
 			tracker = Tracker.objects.order_by('?').first()
 
@@ -144,6 +144,9 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		self.delete_data()
 		self.stdout.write('delete_data finished')
+
+		self.generate_demo_users()
+		self.stdout.write('generate_demo_users finished')
 
 		self.generate_users()
 		self.stdout.write('generate_users finished')
