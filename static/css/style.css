@@ -13,6 +13,10 @@ body {
     width: 90%;
 }
 
+.form-title {
+    margin-bottom: 1rem;
+}
+
 .breadcrumb {
     background-color: #e9ecef;
     border-radius: .25rem;
