@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from bug_tracker.constants import DEMO
 
 
 class GroupsRequiredMixin:
@@ -13,5 +14,19 @@ class GroupsRequiredMixin:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 raise PermissionDenied  # if not in group
+        else:
+            raise PermissionDenied  # if not logged in
+
+
+class DemoGroupNotAlowed:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            print('wazzup')
+            if request.user.groups.filter(name=DEMO).exists():
+                print('exists')
+                raise PermissionDenied  # if in DEMO group
+            else:
+                print('no exists')
+                return super().dispatch(request, *args, **kwargs)  # not in demo group and logged in
         else:
             raise PermissionDenied  # if not logged in
