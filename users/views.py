@@ -12,8 +12,12 @@ from bug_tracker.constants import SUPERUSER, ALL_GROUPS, MANAGER_CREDENTIALS, DE
 from bug_tracker.utils import is_member
 
 # todo password reset?
-
-
+# todo - demo users - what if they're logged in, should they not be given "delete" permissions?
+# todo user passes test do not allow users to access login/signup pages if logged in
+# todo - check if user is logged in
+# todo - update profile / update password. Check if user=user or if superuser. Can they access without account or not as superuser?
+# todo - shouldn't be able to update anything about demo users
+# todo - add margin below submit button
 class SignUpView(CreateView):
 	model = get_user_model()
 	form_class = SignupForm
