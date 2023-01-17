@@ -16,14 +16,14 @@
 	</div>
 	<div class="col-md-6 mb-3">
 		<label for="inputEmail" class="form-label">{{form.email.label}}</label>
-		<input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail" aria-describedby="emailHelp" maxlength="150">
+		<input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail" aria-describedby="emailHelp" placeholder="example@example.com" maxlength="150">
 		<div id="emailHelp" class="form-text">150 characters or less.</div>
 		<div id="emailError" class="form-text text-danger">{{form.email.errors|join:', '}}</div>
 	</div>
 	<div class="col-md-6 mb-3">
 		<label for="inputPhoneNumber" class="form-label">{{form.phone_number.label}}</label>
 		<input type="tel" name="phone_number" class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}" id="inputPhoneNumber" aria-describedby="phoneNumberHelp" maxlength="20">
-		<div id="phoneNumberHelp" class="form-text">20 characters or less. Ex: 1-916-111-1111</div>
+		<div id="phoneNumberHelp" class="form-text">20 characters or less.</div>
 		<div id="phoneNumberError" class="form-text text-danger">{{form.phone_number.errors|join:', '}}</div>
 	</div>
 </div>

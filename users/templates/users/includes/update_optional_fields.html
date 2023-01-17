@@ -16,7 +16,7 @@
 	</div>
 	<div class="col-md-6 mb-3">
 		<label for="inputEmail" class="form-label">{{form.email.label}}</label>
-		<input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail" value="{{ form.email.value }}" aria-describedby="emailHelp" maxlength="150">
+		<input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail" value="{{ form.email.value }}" aria-describedby="emailHelp" placeholder="example@example.com" maxlength="150">
 		<div id="emailHelp" class="form-text">150 characters or less.</div>
 		<div id="emailError" class="form-text text-danger">{{form.email.errors|join:', '}}</div>
 	</div>
