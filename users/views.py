@@ -4,6 +4,7 @@ from django.shortcuts import reverse, redirect, render
 from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 from django.http import HttpResponseServerError
 
 from tracker.mixins import GroupsRequiredMixin
@@ -14,11 +15,7 @@ from bug_tracker.utils import is_member
 
 # todo password reset?
 # todo - demo users - what if they're logged in, should they not be given "delete" permissions?
-# todo user passes test do not allow users to access login/signup pages if logged in
-# todo - check if user is logged in
-# todo - update profile / update password. Check if user=user or if superuser. Can they access without account or not as superuser?
 # todo - shouldn't be able to update anything about demo users
-# todo - add margin below submit button
 class SignUpView(UserPassesTestMixin, CreateView):
 	model = get_user_model()
 	form_class = SignupForm
@@ -81,18 +78,22 @@ class UpdateProfileView(UserPassesTestMixin, UpdateView):
 		is_admin = is_member(self.request.user, SUPERUSER)
 		return is_creator or is_admin
 
-def update_password(request, pk):
-	if request.method == 'POST':
-		form = PasswordChangeForm(request.user, request.POST)
-		if form.is_valid():
-			user = form.save()
-			update_session_auth_hash(request, user)  # lets the user stay logged in
-			return redirect(reverse('users:detail', kwargs={'pk': pk}))
-		else:
-			return render(request, 'users/update_password.html', {'form': form})
-	else:
-		form = PasswordChangeForm(request.user)
-	return render(request, 'users/update_password.html', {'form': form})
+
+class UpdatePasswordView(UserPassesTestMixin, PasswordChangeView):
+	form_class = PasswordChangeForm
+	template_name = 'users/update_password.html'
+
+	def form_valid(self, form):
+		update_session_auth_hash(self.request, self.request.user)  # lets the user stay logged in
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse('users:detail', kwargs={'pk': self.kwargs['pk']})
+
+	def test_func(self):
+		is_creator = self.kwargs['pk'] == self.request.user.pk
+		is_admin = is_member(self.request.user, SUPERUSER)
+		return is_creator or is_admin
 
 
 class ProfileView(GroupsRequiredMixin, DetailView):
