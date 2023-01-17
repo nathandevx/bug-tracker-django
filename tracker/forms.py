@@ -1,6 +1,7 @@
 from django import forms
 from tracker.models import Tracker, Ticket, TicketComment
-from bug_tracker.constants import TIMESTAMP_EXCLUDE
+
+TIMESTAMP_EXCLUDE = ['creator', 'updater', 'created_at', 'updated_at']
 
 
 class TrackerForm(forms.ModelForm):
