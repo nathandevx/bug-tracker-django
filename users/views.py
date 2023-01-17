@@ -10,7 +10,7 @@ from .forms import LoginForm, SignupForm, UpdateProfileForm
 from bug_tracker.constants import SUPERUSER, ALL_GROUPS
 from bug_tracker.utils import is_member
 
-# todo change the model name of all user views
+# todo password reset?
 
 
 class SignUpView(CreateView):
