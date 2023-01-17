@@ -76,7 +76,7 @@ def update_password(request, pk):
 			update_session_auth_hash(request, user)  # lets the user stay logged in
 			return redirect(reverse('users:detail', kwargs={'pk': pk}))
 		else:
-			return redirect(reverse('users:update-password', kwargs={'pk': pk}))
+			return render(request, 'users/update_password.html', {'form': form})
 	else:
 		form = PasswordChangeForm(request.user)
 	return render(request, 'users/update_password.html', {'form': form})
