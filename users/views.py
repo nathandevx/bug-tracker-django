@@ -7,9 +7,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.http import HttpResponseServerError
 
-from tracker.mixins import GroupsRequiredMixin
+from tracker.mixins import GroupsRequiredMixin, DemoGroupNotAlowed
 from .forms import LoginForm, SignupForm, UpdateProfileForm
-from bug_tracker.constants import SUPERUSER, ALL_GROUPS, MANAGER_CREDENTIALS, DEVELOPER_CREDENTIALS, SUBMITTER_CREDENTIALS
+from bug_tracker.constants import SUPERUSER, DEMO, ALL_GROUPS, ALL_GROUPS_NOT_DEMO, MANAGER_CREDENTIALS, DEVELOPER_CREDENTIALS, SUBMITTER_CREDENTIALS
 from bug_tracker.utils import is_member
 
 
@@ -64,7 +64,7 @@ class LoginView(UserPassesTestMixin, FormView):
 		return not self.request.user.is_authenticated
 
 
-class UpdateProfileView(UserPassesTestMixin, UpdateView):
+class UpdateProfileView(UserPassesTestMixin, DemoGroupNotAlowed, UpdateView):
 	model = get_user_model()
 	form_class = UpdateProfileForm
 	template_name = 'users/update.html'
@@ -79,7 +79,7 @@ class UpdateProfileView(UserPassesTestMixin, UpdateView):
 		return is_creator or is_admin
 
 
-class UpdatePasswordView(UserPassesTestMixin, PasswordChangeView):
+class UpdatePasswordView(UserPassesTestMixin, DemoGroupNotAlowed, PasswordChangeView):
 	form_class = PasswordChangeForm
 	template_name = 'users/update_password.html'
 
@@ -104,8 +104,10 @@ class ProfileView(GroupsRequiredMixin, DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		# todo what if they are a developer or manager? what should they see
-		context['access'] = (self.object == self.request.user) or (is_member(self.request.user, SUPERUSER))
+		is_creator = self.object == self.request.user
+		is_admin = is_member(self.request.user, SUPERUSER)
+		in_demo_group = is_member(self.request.user, DEMO)
+		context['access'] = (is_creator or is_admin) and not in_demo_group
 		return context
 
 
