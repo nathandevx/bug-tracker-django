@@ -9,5 +9,5 @@
 	<div id="passwordError" class="form-text text-danger">{{form.password.errors|join:', '}}</div>
 </div>
 {% if form.non_field_errors %}
-    <p class="text-danger text-center">{{ form.non_field_errors|join:', ' }}</p>
+    <p class="text-danger">{{ form.non_field_errors|join:', ' }}</p>
 {% endif %}
