@@ -38,6 +38,7 @@ class Ticket(TimestampCreatorMixin):
 		(FEATURE, 'Feature'),
 	]  # (stored, displayed)
 
+	# todo - what's the difference between 'resolved' and 'closed'
 	# status CHOICES
 	OPEN = 'OPEN'
 	CLOSED = 'CLOSED'
