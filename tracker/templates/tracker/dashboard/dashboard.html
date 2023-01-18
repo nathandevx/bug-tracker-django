@@ -8,16 +8,8 @@
 {% block contents %}
     <div class="container-fluid width">
         <h1>Dashboard: <span class="text-danger">{{ user.get_username }}</span></h1>
-
 		{% include 'tracker/dashboard/includes/breadcrumbs.html' %}
 	    {% include 'tracker/dashboard/includes/cards.html' %}
-        <p>
-	        <a href="{% url 'tracker:all-tickets' %}">All tickets</a>,
-	        <a href="{% url 'tracker:resolved-tickets' %}"> resolved tickets</a>,
-	        <a href="{% url 'tracker:in-progress-tickets' %}">in progress tickets</a>,
-	        <a href="{% url 'tracker:high-priority-tickets' %}">high priority tickets</a>
-        </p>
-
 		{% include 'tracker/dashboard/includes/charts.html' %}
 
 		<h3 id="users-table-anchor">Table of users</h3>
