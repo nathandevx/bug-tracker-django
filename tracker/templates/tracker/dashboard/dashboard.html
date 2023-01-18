@@ -10,6 +10,7 @@
         <h1>Dashboard: <span class="text-danger">{{ user.get_username }}</span></h1>
 		{% include 'tracker/dashboard/includes/breadcrumbs.html' %}
         <h3>Card links (every tracker's tickets)</h3>
+	    {% include 'tracker/dashboard/includes/cards.html' %}
         <p>
 	        <a href="{% url 'tracker:all-tickets' %}">All tickets</a>,
 	        <a href="{% url 'tracker:resolved-tickets' %}"> resolved tickets</a>,
