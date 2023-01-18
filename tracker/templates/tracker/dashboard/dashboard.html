@@ -7,10 +7,8 @@
 
 {% block contents %}
     <div class="container-fluid width">
-        <h1>Dashboard: for all trackers</h1>
-		<h2>Logged in as: <span class="text-danger">{{ user.get_username }}</span></h2>
-	    <p>Breadcrumbs...: tracker list, </p>
-
+        <h1>Dashboard: <span class="text-danger">{{ user.get_username }}</span></h1>
+		{% include 'tracker/dashboard/includes/breadcrumbs.html' %}
         <h3>Card links (every tracker's tickets)</h3>
         <p>
 	        <a href="{% url 'tracker:all-tickets' %}">All tickets</a>,
