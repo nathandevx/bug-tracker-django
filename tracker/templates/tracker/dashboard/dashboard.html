@@ -19,11 +19,8 @@
         </p>
         <p>Then show View (num tickets) -></p>
 
-        <h3>chart showing number of total tickets</h3>
-        <p>You can search users by name. By default they are sorted by most tickets completed</p>
-		{% include 'tracker/dashboard/includes/ticket_chart.html' %}
-        <h3>chart showing growing users</h3>
-		{% include 'tracker/dashboard/includes/user_chart.html' %}
+		{% include 'tracker/dashboard/includes/charts.html' %}
+
 		<h3 id="users-table-anchor">Table of users</h3>
 		{% include 'tracker/dashboard/includes/users_table.html' %}
 	    <br>
