@@ -6,12 +6,11 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block contents %}
-    <div class="container-fluid width">
+    <div class="container">
         <h1>Dashboard: <span class="text-danger">{{ user.get_username }}</span></h1>
 		{% include 'tracker/dashboard/includes/breadcrumbs.html' %}
 	    {% include 'tracker/dashboard/includes/cards.html' %}
 		{% include 'tracker/dashboard/includes/charts.html' %}
-		<h3 id="users-table-anchor">Table of users</h3>
 		{% include 'tracker/dashboard/includes/users_table.html' %}
 	    <br>
 	    <br>
