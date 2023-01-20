@@ -27,8 +27,7 @@
 		                    <td>{{ obj.priority }}</td>
 		                    <td>
 			                    {% for assignee in obj.assignees.all %}
-			                        {{ assignee }}
-				                    h
+			                        {{ assignee }},
 			                    {% endfor %}
 		                    </td>
 		                    <td>{{ obj.tracker }}</td>
