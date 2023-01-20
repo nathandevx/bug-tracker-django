@@ -22,7 +22,7 @@
 		                    <td>{{ obj.username }}</td>
 		                    <td>{% if obj.groups.all.0 %}{{ obj.groups.all.0 }}{% else %}None{% endif %}</td>
 		                    <td>{% if obj.email %}{{ obj.email }}{% else %}None{% endif %}</td>
-		                    <td>{% if obj.phone_number != '000-000-0000' %}{{ obj.phone_number }}{% else %}None{% endif %}</td>
+		                    <td>{% if obj.phone_number %}{{ obj.phone_number }}{% else %}None{% endif %}</td>
 		                    <td>{{ obj.date_joined|date:"m/d/Y" }}</td>
 		                    <td><a href="{% url 'users:detail' obj.pk %}">Profile</a></td>
 		                </tr>
