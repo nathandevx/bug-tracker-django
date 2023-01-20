@@ -40,10 +40,10 @@ class Ticket(TimestampCreatorMixin):
 
 	# todo - what's the difference between 'resolved' and 'closed'
 	# status CHOICES
-	OPEN = 'OPEN'
-	CLOSED = 'CLOSED'
-	IN_PROGRESS = 'IN PROGRESS'
-	RESOLVED = 'RESOLVED'
+	OPEN = 'Open'
+	CLOSED = 'Closed'
+	IN_PROGRESS = 'In progress'
+	RESOLVED = 'Resolved'
 	STATUS_CHOICES = [
 		(OPEN, 'Open'),
 		(IN_PROGRESS, 'In progress'),
@@ -52,9 +52,9 @@ class Ticket(TimestampCreatorMixin):
 	]
 
 	# PRIORITY CHOICES
-	HIGH = 'HIGH'
-	NORMAL = 'NORMAL'
-	LOW = 'LOW'
+	HIGH = 'High'
+	NORMAL = 'Normal'
+	LOW = 'Low'
 	PRIORITY_CHOICES = [
 		(HIGH, 'High'),
 		(NORMAL, 'Normal'),
