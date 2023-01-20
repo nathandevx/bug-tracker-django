@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 
-from bug_tracker.constants import YEAR, SUPERUSER_USERNAME
+from bug_tracker.constants import YEAR, SUPERUSER_USERNAME, MANAGER, DEVELOPER, SUBMITTER
 
 
 class User(AbstractUser):
@@ -62,9 +62,11 @@ class User(AbstractUser):
 		elif sort == 'date_joined':
 			return cls.objects.exclude(username=SUPERUSER_USERNAME).order_by(f'{ordering}date_joined')
 		# default sort by role
-		return cls.objects.exclude(username=SUPERUSER_USERNAME).annotate(group_order=Case(
-			When(groups__name='Manager', then=0),
-			When(groups__name='Developer', then=1),
-			When(groups__name='Submitter', then=2),
+		return cls.objects.exclude(username=SUPERUSER_USERNAME).filter(
+			groups__name__in=[MANAGER, DEVELOPER, SUBMITTER]
+		).annotate(group_order=Case(
+			When(groups__name=MANAGER, then=0),
+			When(groups__name=DEVELOPER, then=1),
+			When(groups__name=SUBMITTER, then=2),
 			output_field=IntegerField()
 		)).order_by(f'{ordering}group_order')
