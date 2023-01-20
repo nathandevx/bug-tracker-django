@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth import get_user_model
 
-from bug_tracker.constants import ALL_GROUPS, PAG_BY, ADMINS
+from bug_tracker.constants import ALL_GROUPS, PAG_BY, ADMINS, YEAR
 from tracker.mixins import GroupsRequiredMixin
 from tracker.models import Ticket
 
@@ -29,15 +29,16 @@ class Dashboard(GroupsRequiredMixin, TemplateView):
 		# More
 		context['access'] = self.request.user.groups.filter(name__in=ADMINS).exists()
 		context['order'] = order
+		context['year'] = YEAR
 		return context
 
 
-class AllTicketListView(GroupsRequiredMixin, ListView):
+class OpenTicketListView(GroupsRequiredMixin, ListView):
 	model = Ticket
-	template_name = 'tracker/dashboard/all_tickets.html'
+	template_name = 'tracker/dashboard/open_tickets.html'
 	groups = ALL_GROUPS
 	paginate_by = PAG_BY
-	queryset = Ticket.objects.all()
+	queryset = Ticket.objects.filter(status=Ticket.OPEN)
 
 
 class ResolvedTicketListView(GroupsRequiredMixin, ListView):
