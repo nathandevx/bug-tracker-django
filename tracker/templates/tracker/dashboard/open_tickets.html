@@ -13,8 +13,8 @@
 		                <th scope="col">Type</th>
 		                <th scope="col">Status</th>
 		                <th scope="col">Priority</th>
+		                <th scope="col">Project</th>
 		                <th scope="col">Assignees (dropdown)</th>
-		                <th scope="col">Projects (dropdown)</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -25,12 +25,12 @@
 		                    <td>{{ obj.type }}</td>
 		                    <td>{{ obj.status }}</td>
 		                    <td>{{ obj.priority }}</td>
+		                    <td>{{ obj.tracker }}</td>
 		                    <td>
 			                    {% for assignee in obj.assignees.all %}
 			                        {{ assignee }},
 			                    {% endfor %}
 		                    </td>
-		                    <td>{{ obj.tracker }}</td>
 		                </tr>
 		            {% endfor %}
 		        </tbody>
