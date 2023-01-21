@@ -29,8 +29,8 @@ class Tracker(TimestampCreatorMixin):
 
 class Ticket(TimestampCreatorMixin):
 	# TYPE CHOICES
-	FEATURE = 'FEATURE'
-	BUG = 'BUG'
+	FEATURE = 'Feature'
+	BUG = 'Bug'
 	UI = 'UI'
 	TYPE_CHOICES = [
 		(BUG, 'Bug'),
