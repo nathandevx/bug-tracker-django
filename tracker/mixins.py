@@ -21,12 +21,9 @@ class GroupsRequiredMixin:
 class DemoGroupNotAlowed:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            print('wazzup')
             if request.user.groups.filter(name=DEMO).exists():
-                print('exists')
                 raise PermissionDenied  # if in DEMO group
             else:
-                print('no exists')
                 return super().dispatch(request, *args, **kwargs)  # not in demo group and logged in
         else:
             raise PermissionDenied  # if not logged in

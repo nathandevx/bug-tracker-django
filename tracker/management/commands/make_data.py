@@ -120,7 +120,7 @@ class Command(BaseCommand):
 			# Create the ticket
 			ticket = Ticket.objects.create(title=f'ticket{i+1}', description='desc',
 								   creator=submitter, updater=submitter,
-								   resolution='resolution', type=typee, status=status, priority=priority, tracker= tracker)
+								   resolution='resolution', type=typee, status=status, priority=priority, tracker=tracker)
 			# Update the dates
 			ticket.created_at = get_random_date()  # need to do this because 'created_at' automatically assigns a value
 			ticket.updated_at = get_random_date_after_a_date(ticket.created_at, MONTH*3)
