@@ -14,7 +14,7 @@
 		                <th scope="col">Status</th>
 		                <th scope="col">Priority</th>
 		                <th scope="col">Project</th>
-		                <th scope="col">Assignees (dropdown)</th>
+		                <th scope="col">Assignees</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -27,9 +27,18 @@
 		                    <td>{{ obj.priority }}</td>
 		                    <td>{{ obj.tracker }}</td>
 		                    <td>
-			                    {% for assignee in obj.assignees.all %}
-			                        {{ assignee }},
-			                    {% endfor %}
+		                        {# todo - if they're the assignee then display their name as primary text #}
+		                        {% if obj.assignees.all %}
+				                    {% for assignee in obj.assignees.all %}
+					                    {% if forloop.last %}
+					                        {{ assignee }}
+					                    {% else %}
+						                    {{ assignee }} |
+					                    {% endif %}
+				                    {% endfor %}
+			                    {% else %}
+			                        None
+		                        {% endif %}
 		                    </td>
 		                </tr>
 		            {% endfor %}
